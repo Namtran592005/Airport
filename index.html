@@ -19,16 +19,25 @@
             color: var(--text-color);
             margin: 0;
             padding: 0;
-            background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            /* Thêm padding-bottom để nội dung không bị footer che khuất */
+            padding-bottom: 80px; 
+        }
+
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Đảm bảo video che phủ toàn bộ màn hình */
+            z-index: -1; /* Đặt video phía sau mọi nội dung khác */
+            filter: brightness(0.7); /* Giảm độ sáng video để chữ dễ đọc hơn */
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0px 20px;
         }
         
         header {
@@ -58,7 +67,7 @@
         }
         
         .departures-board {
-            background-color: var(--panel-color);
+            background-color: rgba(255, 255, 255, 0.95); /* Thêm độ trong suốt nhẹ cho panel */
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             margin: 30px 0;
@@ -145,12 +154,16 @@
             background-color: #e0a800;
         }
         
+        /* --- THAY ĐỔI CHO FOOTER --- */
         footer {
             text-align: center;
-            padding: 20px;
             background-color: var(--primary-color);
             color: white;
-            margin-top: 30px;
+            position: fixed; /* Cố định vị trí */
+            bottom: 0;       /* Bám vào dưới cùng */
+            left: 0;
+            width: 100%;     /* Chiều rộng 100% */
+            z-index: 1000;   /* Đảm bảo footer luôn ở trên cùng */
         }
         
         @media (max-width: 768px) {
@@ -165,11 +178,17 @@
     </style>
 </head>
 <body>
+
+    <!-- THÊM VIDEO NỀN -->
+    <video autoplay muted loop playsinline class="background-video">
+        <source src="./src/backgroud.mp4" type="video/mp4">
+        Trình duyệt của bạn không hỗ trợ video tag.
+    </video>
+
     <header>
         <div class="container">
-            <h1>✈ AIRPORT CENTER</h1>
+            <h1>✈ Airport Center</h1>
             <p>Trung tâm điều hướng trực tuyến</p>
-            <div class="airport-icon">🛫</div>
         </div>
     </header>
     
@@ -239,7 +258,7 @@
     
     <footer>
         <div class="container">
-            <p>© 2025 AIRPORT CENTER - Hệ thống điều hướng trực tuyến | Phiên bản 1.0</p>
+            <p>© 2025 Airport Center | Phiên bản 1.0</p>
         </div>
     </footer>
     
