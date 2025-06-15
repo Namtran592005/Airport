@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sân Bay Web - Trung tâm Điều Hướng</title>
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #ffc107;
+            --bg-color: #f0f8ff;
+            --text-color: #333;
+            --panel-color: #fff;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 5px solid var(--secondary-color);
+            position: relative;
+        }
+        
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        
+        header p {
+            margin: 5px 0 0;
+            font-size: 1.2rem;
+        }
+        
+        .airport-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+        }
+        
+        .departures-board {
+            background-color: var(--panel-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin: 30px 0;
+            overflow: hidden;
+        }
+        
+        .board-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .board-title {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+        
+        .board-time {
+            font-size: 1.2rem;
+        }
+        
+        .destinations {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .destination {
+            background-color: white;
+            border-left: 5px solid var(--secondary-color);
+            padding: 15px;
+            border-radius: 4px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .destination:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        .destination-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        
+        .destination-name {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin: 0;
+        }
+        
+        .destination-code {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        .destination-description {
+            margin: 10px 0;
+            color: #666;
+        }
+        
+        .btn-board {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-board:hover {
+            background-color: #e0a800;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            margin-top: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .destinations {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>✈ AIRPORT CENTER</h1>
+            <p>Trung tâm điều hướng trực tuyến</p>
+            <div class="airport-icon">🛫</div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="departures-board">
+            <div class="board-header">
+                <h2 class="board-title">BẢNG ĐIỂM ĐẾN</h2>
+                <div class="board-time" id="current-time">Đang tải thời gian...</div>
+            </div>
+            <div class="destinations">
+                <div class="destination">
+                    <div class="destination-header">
+                        <h3 class="destination-name">DATA</h3>
+                        <span class="destination-code">GATE-1</span>
+                    </div>
+                    <p class="destination-description">Trang dữ liệu Server web hiện tại đang chạy các trang web</p>
+                    <button class="btn-board" onclick="window.location.href='./src/error.html'">Đi đến</button>
+                </div>
+                
+                <div class="destination">
+                    <div class="destination-header">
+                        <h3 class="destination-name">PORTFOLIO</h3>
+                        <span class="destination-code">GATE-2</span>
+                    </div>
+                    <p class="destination-description">Website Portfolio cá nhân dựa trên theo thiết kế các sản phẩm của Apple.</p>
+                    <button class="btn-board" onclick="window.location.href='./portfolio/index.html'">Đi đến</button>
+                </div>
+                
+                <div class="destination">
+                    <div class="destination-header">
+                        <h3 class="destination-name">CLOCK</h3>
+                        <span class="destination-code">GATE-3</span>
+                    </div>
+                    <p class="destination-description">Trang đồng hồ hiển thị thời gian hiện tại, được tính toán và đồng bộ với máy chủ thời gian.</p>
+                    <button class="btn-board" onclick="window.location.href='./clock/index.html'">Đi đến</button>
+                </div>
+                
+                <!-- <div class="destination">
+                    <div class="destination-header">
+                        <h3 class="destination-name">Giới Thiệu</h3>
+                        <span class="destination-code">ABOUT</span>
+                    </div>
+                    <p class="destination-description">Tìm hiểu về lịch sử, tầm nhìn và đội ngũ đằng sau tổ chức của chúng tôi.</p>
+                    <button class="btn-board" onclick="window.location.href='/about'">Đi đến</button>
+                </div> -->
+                
+                <!-- <div class="destination">
+                    <div class="destination-header">
+                        <h3 class="destination-name">Liên Hệ</h3>
+                        <span class="destination-code">CONT</span>
+                    </div>
+                    <p class="destination-description">Kết nối với chúng tôi qua nhiều kênh liên lạc khác nhau để được hỗ trợ.</p>
+                    <button class="btn-board" onclick="window.location.href='/contact'">Đi đến</button>
+                </div> -->
+                
+                <!-- <div class="destination">
+                    <div class="destination-header">
+                        <h3 class="destination-name">Hỗ Trợ</h3>
+                        <span class="destination-code">HELP</span>
+                    </div>
+                    <p class="destination-description">Tìm kiếm trợ giúp, câu hỏi thường gặp và hướng dẫn sử dụng.</p>
+                    <button class="btn-board" onclick="window.location.href='/support'">Đi đến</button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>© 2025 AIRPORT CENTER - Hệ thống điều hướng trực tuyến | Phiên bản 1.0</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Cập nhật thời gian thực
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('vi-VN', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            const dateString = now.toLocaleDateString('vi-VN', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'numeric',
+                year: 'numeric'
+            });
+            document.getElementById('current-time').textContent = `${dateString} | ${timeString}`;
+        }
+        
+        setInterval(updateTime, 1000);
+        updateTime();
+        
+        // Hiệu ứng cho các điểm đến
+        document.querySelectorAll('.destination').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.borderLeftColor = '#0056b3';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.borderLeftColor = '#ffc107';
+            });
+        });
+    </script>
+</body>
+</html>
