@@ -1,212 +1,340 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Máy bay đã cất cánh không có bạn!</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lỗi 404 - Tuyến Bay Không Tồn Tại</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="https://cdn-icons-png.flaticon.com/512/2200/2200326.png"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto+Mono:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Poppins:wght@700&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+      :root {
+        --primary-color: #0056b3;
+        --secondary-color: #fff;
+        --glass-border-color: rgba(255, 255, 255, 0.3);
+        --text-on-glass-color: #f0f8ff;
+        --text-shadow-strong: 0 1px 4px rgba(0, 0, 0, 0.5);
+        --status-delayed-color: #dc3545;
+      }
+
+      body {
+        font-family: "Poppins", "Segoe UI", sans-serif;
+        background-color: #000;
+        color: var(--text-on-glass-color);
+        margin: 0;
+        padding: 0;
+        padding-bottom: 80px;
+      }
+
+      .background-video {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+        filter: brightness(0.8);
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* --- HEADER (Giữ nguyên từ trang chính) --- */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 1001;
+        padding: 10px 0;
+        background: rgba(0, 20, 50, 0.5);
+        backdrop-filter: blur(3px);
+        -webkit-backdrop-filter: blur(3px);
+        border-bottom: 1px solid var(--glass-border-color);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      }
+      header .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      header h1 {
+        margin: 0;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: white;
+        text-shadow: var(--text-shadow-strong);
+        display: flex;
+        align-items: center;
+      }
+      .header-icon {
+        color: var(--secondary-color);
+        font-size: 2rem;
+        margin-right: 12px;
+      }
+      .time-display-wrapper {
+        text-align: right;
+      }
+      #time-display {
+        display: block;
+        font-family: "Roboto Mono", monospace;
+        font-size: 1.5rem;
+        color: #fff;
+        letter-spacing: 1.5px;
+        font-weight: 500;
+        animation: glow 2s ease-in-out infinite alternate;
+      }
+      #date-display {
+        display: block;
+        font-size: 0.8rem;
+        color: #a7c0e0;
+        opacity: 0.8;
+        font-weight: 400;
+      }
+      @keyframes glow {
+        from {
+          text-shadow: 0 0 5px rgba(173, 216, 230, 0.5),
+            0 0 10px rgba(173, 216, 230, 0.3);
         }
+        to {
+          text-shadow: 0 0 10px rgba(173, 216, 230, 0.8),
+            0 0 20px rgba(173, 216, 230, 0.5);
+        }
+      }
+
+      /* --- BẢNG THÔNG BÁO LỖI --- */
+      .error-board {
+        margin: 40px auto;
+        padding: 40px;
+        text-align: center;
+        max-width: 800px;
         
+        /* Hiệu ứng glassmorphism */
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid var(--glass-border-color);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        border-radius: 16px;
+      }
+      
+      .error-code {
+        font-family: "Roboto Mono", monospace;
+        font-size: 10rem;
+        font-weight: 700;
+        color: var(--status-delayed-color);
+        margin: 0;
+        line-height: 1;
+        text-shadow: 0 0 10px rgba(220, 53, 69, 0.7), 0 0 20px rgba(220, 53, 69, 0.5);
+        animation: glitch 2s linear infinite;
+      }
+
+      .error-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 20px 0 10px 0;
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        text-shadow: var(--text-shadow-strong);
+      }
+
+      .error-description {
+        margin: 10px 0 30px 0;
+        font-weight: 400;
+        color: #fff;
+        line-height: 1.7;
+      }
+
+      .btn-board {
+        background-color: rgba(255, 255, 255, 0.374);
+        color: #333;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 6px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s, color 0.3s;
+        text-transform: uppercase;
+        text-shadow: none;
+        text-decoration: none;
+        display: inline-block;
+      }
+      .btn-board:hover {
+        background-color: rgba(0, 0, 0, 0.5);
+        transform: scale(1.05);
+        color: white;
+      }
+
+      /* Animation Glitch cho số 404 */
+      @keyframes glitch {
+        2%, 64% {
+          transform: translate(2px, 0) skew(0deg);
+        }
+        4%, 60% {
+          transform: translate(-2px, 0) skew(0deg);
+        }
+        62% {
+          transform: translate(0, 0) skew(5deg);
+        }
+      }
+      .error-code:before,
+      .error-code:after {
+        content: attr(data-text);
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        width: 100%;
+      }
+      .error-code:before {
+        animation: glitch-top 1.5s linear infinite;
+        clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+      }
+      @keyframes glitch-top {
+        29%, 31% {
+          transform: translate(-3px, -5px);
+        }
+        30% {
+          transform: translate(3px, 5px);
+        }
+      }
+      .error-code:after {
+        animation: glitch-bottom 1.5s linear infinite;
+        clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+        -webkit-clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+      }
+      @keyframes glitch-bottom {
+        29%, 31% {
+          transform: translate(3px, 5px);
+        }
+        30% {
+          transform: translate(-3px, -5px);
+        }
+      }
+      
+      /* --- FOOTER (Giữ nguyên từ trang chính) --- */
+      footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        padding: 10px 0;
+        color: #eaf5ff;
+        text-align: center;
+        background: rgba(0, 20, 50, 0.5);
+        backdrop-filter: blur(3px);
+        -webkit-backdrop-filter: blur(3px);
+        border-top: 1px solid var(--glass-border-color);
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+      }
+      footer p {
+        margin: 0;
+        font-size: 0.85rem;
+        font-weight: 400;
+        text-shadow: var(--text-shadow-strong);
+      }
+
+      /* --- RESPONSIVE --- */
+      @media (max-width: 768px) {
         body {
-            font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(135deg, #0056b3, #ffd700);
-            height: 100vh;
-            color: white;
-            overflow: hidden;
-            position: relative;
+          padding-bottom: 20px;
         }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
-            text-align: center;
-            position: relative;
-            z-index: 2;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        header .container {
+          flex-direction: column;
+          gap: 15px;
         }
-        
-        h1 {
-            font-size: 8rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
-            color: #ffd700;
-            font-family: 'Poppins', sans-serif;
+        header h1 { font-size: 1.6rem; }
+        .time-display-wrapper { text-align: center; }
+        #time-display { font-size: 1.3rem; }
+
+        .error-board {
+            padding: 25px;
+            margin-top: 20px;
         }
-        
-        h2 {
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            color: white;
+        .error-code { font-size: 6rem; }
+        .error-title { font-size: 1.5rem; }
+        .error-description { font-size: 0.9rem; }
+
+        footer {
+          position: static;
+          margin-top: 40px;
+          border-radius: 12px;
+          margin-left: 20px;
+          margin-right: 20px;
+          width: auto;
         }
-        
-        p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            line-height: 1.6;
-            color: white;
-        }
-        
-        .btn {
-            display: inline-block;
-            padding: 0.8rem 2rem;
-            background: #ffd700;
-            color: #0056b3;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: 2px solid #ffd700;
-            box-shadow: 0 4px 15px rgba(0, 86, 179, 0.3);
-        }
-        
-        .btn:hover {
-            background: transparent;
-            color: #ffd700;
-            transform: translateY(-3px);
-        }
-        
-        .airplane {
-            position: absolute;
-            width: 150px;
-            animation: fly 15s linear infinite;
-            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
-        }
-        
-        .cloud {
-            position: absolute;
-            opacity: 0.8;
-            filter: drop-shadow(0 0 5px white);
-        }
-        
-        @keyframes fly {
-            0% {
-                transform: translate(-200px, 100px) rotate(10deg);
-            }
-            50% {
-                transform: translate(400px, -50px) rotate(15deg);
-            }
-            100% {
-                transform: translate(1000px, 50px) rotate(10deg);
-            }
-        }
-        
-        .radar {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            border: 3px solid rgba(255, 215, 0, 0.5);
-            position: relative;
-            margin: 2rem auto;
-            background-color: rgba(0, 86, 179, 0.2);
-        }
-        
-        .radar::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 3px solid rgba(255, 215, 0, 0.3);
-            top: -6px;
-            left: -6px;
-        }
-        
-        .radar::after {
-            content: '';
-            position: absolute;
-            width: 50%;
-            height: 50%;
-            background: linear-gradient(45deg, rgba(255, 215, 0, 0.3), transparent);
-            border-radius: 100% 0 0 0;
-            top: 0;
-            left: 0;
-            animation: scan 4s linear infinite;
-        }
-        
-        @keyframes scan {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-        
-        .not-found-text {
-            font-size: 1.5rem;
-            margin-top: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: #ffd700;
-            font-weight: bold;
-        }
-        
-        @keyframes float {
-            0%, 100% {
-                transform: translateX(-50%) translateY(0);
-            }
-            50% {
-                transform: translateX(-50%) translateY(-20px);
-            }
-        }
-        
-        @keyframes bubble {
-            0%, 100% {
-                transform: translateX(-50%) scale(1);
-            }
-            50% {
-                transform: translateX(-50%) scale(1.05);
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <!-- Giữ lại video nền từ trang chính -->
+    <video autoplay muted loop playsinline class="background-video">
+      <source src="./backgroud.mp4" type="video/mp4" />
+      Trình duyệt của bạn không hỗ trợ video tag.
+    </video>
+
+    <!-- Giữ lại header từ trang chính -->
+    <header>
+      <div class="container">
+        <h1><span class="header-icon">✈</span> Airport Center</h1>
+        <div class="time-display-wrapper">
+          <span id="time-display">--:--:--</span>
+          <span id="date-display">--/--/----</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Nội dung lỗi -->
     <div class="container">
-        <div class="radar"></div>
-        <h1>404</h1>
-        <div class="not-found-text">BỊ LẠC ĐƯỜNG BAY!</div>
-        <h2>Trang bạn tìm kiếm đã "xách vali lên và đi"</h2>
-        <p>Có vẻ như bạn đã nhầm đường băng! Trong khi chúng tôi tìm lại chuyến bay cho bạn, hãy thử một trong những lựa chọn sau:</p>
-        <a href="https://tranvohoangnam.id.vn/" class="btn">Quay về sân bay (trang chủ)</a>
+      <div class="error-board">
+        <h1 class="error-code" data-text="404">404</h1>
+        <h2 class="error-title">Tuyến Bay Không Hợp Lệ</h2>
+        <p class="error-description">
+          Rất tiếc, trang bạn đang tìm kiếm dường như đã bay đến một tọa độ không xác định. Vui lòng kiểm tra lại đường dẫn hoặc quay trở lại sảnh chính của chúng tôi.
+        </p>
+        <a href="../index.html" class="btn-board">Quay Về Bảng Thông Tin</a>
+      </div>
+    </div>
+
+    <!-- Giữ lại footer từ trang chính -->
+    <footer>
+      <div class="container">
+        <p>© 2025 Airport Center | Phiên bản 2.0 - Aviation</p>
+      </div>
+    </footer>
+
+    <!-- Giữ lại script đồng hồ -->
     <script>
-        // Tạo các đám mây ngẫu nhiên
-        document.addEventListener('DOMContentLoaded', function() {
-            const body = document.querySelector('body');
-            const cloudImgs = [
-                'https://cdn-icons-png.flaticon.com/512/414/414927.png',
-                'https://cdn-icons-png.flaticon.com/512/3208/3208751.png',
-                'https://cdn-icons-png.flaticon.com/512/1163/1163624.png'
-            ];
-            
-            for (let i = 0; i < 12; i++) {
-                const cloud = document.createElement('img');
-                cloud.src = cloudImgs[Math.floor(Math.random() * cloudImgs.length)];
-                cloud.classList.add('cloud');
-                cloud.style.width = `${Math.random() * 100 + 50}px`;
-                cloud.style.top = `${Math.random() * 100}%`;
-                cloud.style.left = `${Math.random() * 100}%`;
-                cloud.style.animation = `float ${Math.random() * 20 + 10}s linear infinite`;
-                body.appendChild(cloud);
-            }
-            
-            // Thêm hiệu ứng nhấp nháy ngẫu nhiên cho radar
-            const radar = document.querySelector('.radar');
-            setInterval(() => {
-                radar.style.boxShadow = `0 0 ${Math.random() * 20 + 10}px rgba(255, 215, 0, ${Math.random() * 0.5 + 0.3})`;
-            }, 300);
+      function updateTime() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString("en-GB");
+        const dateString = now.toLocaleDateString("vi-VN", {
+          weekday: "long",
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
         });
+
+        document.getElementById("time-display").textContent = timeString;
+        document.getElementById("date-display").textContent = dateString;
+      }
+
+      setInterval(updateTime, 1000);
+      updateTime();
     </script>
-</body>
+  </body>
 </html>
