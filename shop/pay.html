@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thanh toán - MONOSHOP</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      /* Paste the same CSS from index.html here */
+      :root {
+        --primary-color: rgb(10, 127, 201);
+        --primary-light-color: #e0f2f1;
+        --secondary-color: #424242;
+        --dark-color: #1a1a1a;
+        --light-color: #f5f5f5;
+        --white: #ffffff;
+        --border-color: #e0e0e0;
+        --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        --transition: all 0.3s ease;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: var(--secondary-color);
+        background: var(--light-color);
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+      .container {
+        width: 100%;
+        padding: 0 1.5rem;
+        margin: 0 auto;
+        max-width: 1200px;
+      }
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        padding: 1.5rem 0;
+        background-color: var(--white);
+        box-shadow: var(--box-shadow);
+      }
+      .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+      }
+      .logo {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: var(--primary-color);
+      }
+
+      /* Checkout Page Specific Styles */
+      .checkout-container {
+        display: grid;
+        grid-template-columns: 1fr 400px;
+        gap: 2rem;
+        padding-top: 120px;
+        padding-bottom: 4rem;
+      }
+      .checkout-steps,
+      .order-summary {
+        background: var(--white);
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: var(--box-shadow);
+      }
+      .step {
+        margin-bottom: 2rem;
+      }
+      .step h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 1rem;
+      }
+      .form-group {
+        margin-bottom: 1rem;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+      }
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-family: inherit;
+      }
+      #step-2-payment-method {
+        display: none;
+      } /* Hide step 2 initially */
+      .payment-options label {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .payment-options label:hover {
+        border-color: var(--primary-color);
+      }
+      .payment-options input[type="radio"] {
+        margin-right: 1rem;
+      }
+      .payment-options label.selected {
+        border-color: var(--primary-color);
+        background-color: var(--primary-light-color);
+        border-width: 2px;
+      }
+      #card-details {
+        display: none;
+        padding: 1.5rem;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        margin-top: 1rem;
+      }
+      .card-row {
+        display: flex;
+        gap: 1rem;
+      }
+      .order-summary h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+      .summary-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.8rem 0;
+        border-bottom: 1px solid var(--border-color);
+        font-size: 0.9rem;
+      }
+      .summary-total {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 1.5rem;
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+      .order-id-display {
+        text-align: center;
+        margin-top: 1.5rem;
+        font-size: 1rem;
+        background: var(--primary-light-color);
+        padding: 0.5rem;
+        border-radius: 4px;
+      }
+      .order-id-display span {
+        font-weight: bold;
+        color: var(--primary-color);
+      }
+      .cta-button {
+        background: var(--primary-color);
+        color: var(--white);
+        padding: 0.8rem 1.5rem;
+        border-radius: 4px;
+        font-weight: 600;
+        transition: var(--transition);
+        display: inline-block;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+      }
+      .cta-button:hover {
+        background: #004d40;
+      }
+      footer {
+        margin-top: 4rem;
+      } /* Same footer styles as index.html */
+      @media (max-width: 992px) {
+        .checkout-container {
+          grid-template-columns: 1fr;
+        }
+        .order-summary {
+          order: -1;
+          margin-bottom: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header id="mainHeader">
+      <div class="header-container">
+        <a href="index.html" class="logo">MONOSHOP</a>
+      </div>
+    </header>
+
+    <main>
+      <div class="checkout-container container">
+        <div class="checkout-steps">
+          <!-- STEP 1: CUSTOMER INFO -->
+          <div id="step-1-customer-info" class="step">
+            <h3>1. Thông tin giao hàng</h3>
+            <form id="customerInfoForm">
+              <div class="form-group">
+                <label for="customerName">Họ và tên</label>
+                <input type="text" id="customerName" required />
+              </div>
+              <div class="form-group">
+                <label for="customerPhone">Số điện thoại</label>
+                <input type="tel" id="customerPhone" required />
+              </div>
+              <div class="form-group">
+                <label for="customerAddress">Địa chỉ</label>
+                <textarea id="customerAddress" required></textarea>
+              </div>
+              <div class="form-group">
+                <label for="captcha"
+                  >Xác thực: <span id="captchaQuestion"></span
+                ></label>
+                <input type="number" id="captcha" required />
+              </div>
+              <button type="submit" class="cta-button">
+                Tiếp tục thanh toán
+              </button>
+            </form>
+          </div>
+
+          <!-- STEP 2: PAYMENT METHOD -->
+          <div id="step-2-payment-method" class="step">
+            <h3>2. Phương thức thanh toán</h3>
+            <form id="paymentForm">
+              <div class="payment-options">
+                <label id="codLabel">
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    value="cod"
+                    checked
+                  />
+                  Thanh toán khi nhận hàng (COD)
+                </label>
+                <label id="cardLabel">
+                  <input type="radio" name="paymentMethod" value="card" />
+                  Thanh toán qua thẻ (Visa, Mastercard, Napas)
+                </label>
+              </div>
+              <div id="card-details">
+                <div class="form-group">
+                  <label for="cardNumber">Số thẻ</label>
+                  <input
+                    type="text"
+                    id="cardNumber"
+                    placeholder="xxxx xxxx xxxx xxxx"
+                  />
+                </div>
+                <div class="card-row">
+                  <div class="form-group">
+                    <label for="cardExpiry">Ngày hết hạn</label>
+                    <input type="text" id="cardExpiry" placeholder="MM/YY" />
+                  </div>
+                  <div class="form-group">
+                    <label for="cardCVC">CVC</label>
+                    <input type="text" id="cardCVC" placeholder="xxx" />
+                  </div>
+                </div>
+              </div>
+              <button type="submit" class="cta-button">
+                Hoàn tất Đơn hàng
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div class="order-summary">
+          <h3>Tóm tắt đơn hàng</h3>
+          <div id="summaryItemsList"></div>
+          <div class="summary-total">
+            <span>Tổng cộng</span>
+            <span id="summaryTotalPrice">0đ</span>
+          </div>
+          <div
+            id="orderIdDisplay"
+            class="order-id-display"
+            style="display: none"
+          >
+            Mã đơn hàng: <span id="finalOrderId"></span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const cart = JSON.parse(localStorage.getItem("shoppingCart")) || [];
+        if (cart.length === 0) {
+          alert("Giỏ hàng của bạn đang trống. Vui lòng quay lại để mua sắm.");
+          window.location.href = "index.html";
+          return;
+        }
+
+        const summaryListEl = document.getElementById("summaryItemsList");
+        const summaryTotalEl = document.getElementById("summaryTotalPrice");
+        const customerInfoForm = document.getElementById("customerInfoForm");
+        const paymentForm = document.getElementById("paymentForm");
+        const step1Div = document.getElementById("step-1-customer-info");
+        const step2Div = document.getElementById("step-2-payment-method");
+        const cardDetailsDiv = document.getElementById("card-details");
+        const captchaQuestionEl = document.getElementById("captchaQuestion");
+        const captchaInput = document.getElementById("captcha");
+
+        let captchaAnswer = 0;
+        const formatCurrency = (n) =>
+          new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(n);
+        const padZero = (num) => String(num).padStart(2, "0");
+
+        function renderSummary() {
+          summaryListEl.innerHTML = "";
+          let totalPrice = 0;
+          cart.forEach((item) => {
+            const itemTotal = item.price * item.quantity;
+            totalPrice += itemTotal;
+            summaryListEl.innerHTML += `
+                    <div class="summary-item">
+                        <span>${item.name} (Size: ${item.size}) x ${
+              item.quantity
+            }</span>
+                        <span>${formatCurrency(itemTotal)}</span>
+                    </div>`;
+          });
+          summaryTotalEl.textContent = formatCurrency(totalPrice);
+        }
+
+        function generateCaptcha() {
+          const num1 = Math.floor(Math.random() * 10);
+          const num2 = Math.floor(Math.random() * 10);
+          captchaAnswer = num1 + num2;
+          captchaQuestionEl.textContent = `${num1} + ${num2} = ?`;
+        }
+
+        // Step 1: Handle Customer Info Submission
+        customerInfoForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          if (parseInt(captchaInput.value, 10) !== captchaAnswer) {
+            alert("Captcha không chính xác!");
+            generateCaptcha();
+            return;
+          }
+          // Generate Order ID here
+          const now = new Date();
+          const orderId = `${padZero(now.getHours())}${padZero(
+            now.getMinutes()
+          )}${padZero(now.getSeconds())}-${padZero(now.getDate())}${padZero(
+            now.getMonth() + 1
+          )}`;
+          document.getElementById("finalOrderId").textContent = orderId;
+          document.getElementById("orderIdDisplay").style.display = "block";
+
+          // Switch to Step 2
+          step1Div.style.display = "none";
+          step2Div.style.display = "block";
+        });
+
+        // Handle Payment Method Selection
+        document
+          .querySelectorAll('input[name="paymentMethod"]')
+          .forEach((radio) => {
+            radio.addEventListener("change", (e) => {
+              document.getElementById("codLabel").classList.remove("selected");
+              document.getElementById("cardLabel").classList.remove("selected");
+              e.target.parentElement.classList.add("selected");
+              cardDetailsDiv.style.display =
+                e.target.value === "card" ? "block" : "none";
+            });
+          });
+        document.getElementById("codLabel").classList.add("selected"); // Default selection
+
+        // Step 2: Handle Final Order Submission
+        paymentForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const finalOrder = {
+            orderId: document.getElementById("finalOrderId").textContent,
+            customer: {
+              name: document.getElementById("customerName").value,
+              phone: document.getElementById("customerPhone").value,
+              address: document.getElementById("customerAddress").value,
+            },
+            paymentMethod: document.querySelector(
+              'input[name="paymentMethod"]:checked'
+            ).value,
+            items: cart,
+            totalAmount: cart.reduce(
+              (sum, item) => sum + item.price * item.quantity,
+              0
+            ),
+          };
+
+          if (finalOrder.paymentMethod === "card") {
+            finalOrder.cardInfo = {
+              number: document.getElementById("cardNumber").value,
+              expiry: document.getElementById("cardExpiry").value,
+              cvc: document.getElementById("cardCVC").value,
+            };
+          }
+
+          console.log("===== FINAL ORDER TO SERVER =====");
+          console.log(JSON.stringify(finalOrder, null, 2));
+
+          // Clear cart and redirect
+          localStorage.removeItem("shoppingCart");
+          alert(
+            `Đặt hàng thành công! Cảm ơn bạn đã mua sắm. Mã đơn hàng của bạn là ${finalOrder.orderId}`
+          );
+          window.location.href = "index.html";
+        });
+
+        // Initial setup
+        renderSummary();
+        generateCaptcha();
+      });
+    </script>
+  </body>
+</html>

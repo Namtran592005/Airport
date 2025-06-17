@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Câu hỏi thường gặp (FAQ) - MONOSHOP</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      /* CSS chung (Copy từ các trang khác) */
+      :root {
+        --primary-color: rgb(10, 127, 201);
+        --primary-light-color: #e0f2f1;
+        --secondary-color: #424242;
+        --dark-color: #1a1a1a;
+        --light-color: #f5f5f5;
+        --white: #ffffff;
+        --border-color: #e0e0e0;
+        --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        --transition: all 0.3s ease;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: var(--secondary-color);
+        background: var(--light-color);
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+      .container {
+        width: 100%;
+        padding: 0 1.5rem;
+        margin: 0 auto;
+        max-width: 1200px;
+      }
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        padding: 1rem 0;
+        background-color: var(--white);
+        box-shadow: var(--box-shadow);
+      }
+      .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .logo {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: var(--primary-color);
+      }
+      .nav-menu {
+        display: flex;
+        list-style: none;
+        align-items: center;
+      }
+      .nav-item {
+        margin-left: 0.5rem;
+      }
+      .nav-link {
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+      }
+      .nav-link:hover,
+      .nav-link.active {
+        background-color: var(--primary-light-color);
+        color: var(--primary-color);
+      }
+      footer {
+        background: var(--dark-color);
+        color: var(--white);
+        padding: 4rem 0 1.5rem;
+        margin-top: 4rem;
+      }
+      .footer-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+      }
+      .copyright {
+        text-align: center;
+        padding-top: 2rem;
+        margin-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .mobile-menu-btn {
+        display: none;
+      }
+
+      /* CSS cho trang tĩnh (policy, faq) */
+      .static-page-wrapper {
+        padding: 120px 0 4rem;
+      }
+      .static-page-content {
+        background: var(--white);
+        padding: 2.5rem;
+        border-radius: 8px;
+        box-shadow: var(--box-shadow);
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .static-page-content h1 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 2.5rem;
+        color: var(--primary-color);
+      }
+
+      /* FAQ Accordion Styles */
+      .faq-item details {
+        border-bottom: 1px solid var(--border-color);
+        padding: 1.5rem 0;
+      }
+      .faq-item details:first-of-type {
+        border-top: 1px solid var(--border-color);
+      }
+      .faq-item summary {
+        font-weight: 600;
+        font-size: 1.1rem;
+        cursor: pointer;
+        list-style: none; /* Bỏ dấu tam giác mặc định */
+        position: relative;
+        padding-right: 2rem;
+      }
+      .faq-item summary::-webkit-details-marker {
+        display: none; /* Bỏ dấu tam giác cho Chrome */
+      }
+      .faq-item summary::after {
+        /* Tạo icon + / - */
+        content: "+";
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        transition: transform 0.2s;
+      }
+      .faq-item details[open] summary::after {
+        content: "−";
+        transform: translateY(-50%);
+      }
+      .faq-answer {
+        padding-top: 1rem;
+        line-height: 1.8;
+        color: var(--secondary-color);
+      }
+      @media (max-width: 768px) {
+        .static-page-content {
+          padding: 1.5rem;
+        }
+        .static-page-content h1 {
+          font-size: 2rem;
+        }
+        .faq-item summary {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header id="mainHeader">
+      <div class="header-container container">
+        <a href="index.html" class="logo">MONOSHOP</a>
+        <nav class="desktop-nav">
+          <ul class="nav-menu">
+            <li class="nav-item">
+              <a href="index.html" class="nav-link">Trang chủ</a>
+            </li>
+            <li class="nav-item">
+              <a href="product.html" class="nav-link">Sản phẩm</a>
+            </li>
+            <li class="nav-item">
+              <a href="about.html" class="nav-link">Giới thiệu</a>
+            </li>
+            <li class="nav-item">
+              <a href="contact.html" class="nav-link">Liên hệ</a>
+            </li>
+          </ul>
+        </nav>
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </header>
+
+    <main class="static-page-wrapper">
+      <div class="static-page-content container">
+        <h1>Câu hỏi thường gặp</h1>
+
+        <div class="faq-list">
+          <div class="faq-item">
+            <details>
+              <summary>Làm thế nào để đặt hàng?</summary>
+              <div class="faq-answer">
+                <p>
+                  Bạn có thể đặt hàng trực tiếp trên website bằng cách thêm sản
+                  phẩm vào giỏ hàng và tiến hành thanh toán. Ngoài ra, bạn cũng
+                  có thể liên hệ với chúng tôi qua Fanpage hoặc Hotline để được
+                  hỗ trợ đặt hàng.
+                </p>
+              </div>
+            </details>
+          </div>
+
+          <div class="faq-item">
+            <details>
+              <summary>Shop có những phương thức thanh toán nào?</summary>
+              <div class="faq-answer">
+                <p>Chúng tôi chấp nhận 2 hình thức thanh toán chính:</p>
+                <ul>
+                  <li>Thanh toán khi nhận hàng (COD).</li>
+                  <li>
+                    Thanh toán qua chuyển khoản ngân hàng hoặc ví điện tử (Vui
+                    lòng liên hệ để biết thông tin chi tiết).
+                  </li>
+                </ul>
+              </div>
+            </details>
+          </div>
+
+          <div class="faq-item">
+            <details>
+              <summary>Thời gian giao hàng là bao lâu?</summary>
+              <div class="faq-answer">
+                <p>Thời gian giao hàng dự kiến:</p>
+                <ul>
+                  <li><strong>Nội thành TP.HCM:</strong> 1-2 ngày làm việc.</li>
+                  <li>
+                    <strong>Các tỉnh thành khác:</strong> 3-5 ngày làm việc.
+                  </li>
+                </ul>
+                <p>
+                  Thời gian có thể thay đổi tùy thuộc vào đơn vị vận chuyển và
+                  các điều kiện khách quan.
+                </p>
+              </div>
+            </details>
+          </div>
+
+          <div class="faq-item">
+            <details>
+              <summary>Làm sao để chọn đúng size quần áo?</summary>
+              <div class="faq-answer">
+                <p>
+                  Trên mỗi trang chi tiết sản phẩm, chúng tôi đều có bảng size
+                  chi tiết với số đo cụ thể. Bạn vui lòng đo các chỉ số cơ thể
+                  (chiều cao, cân nặng, số đo 3 vòng) và đối chiếu với bảng size
+                  để chọn được kích cỡ phù hợp nhất. Nếu vẫn còn phân vân, đừng
+                  ngần ngại
+                  <a
+                    href="contact.html"
+                    style="color: var(--primary-color); font-weight: bold"
+                    >liên hệ</a
+                  >
+                  với chúng tôi để được tư vấn!
+                </p>
+              </div>
+            </details>
+          </div>
+
+          <div class="faq-item">
+            <details>
+              <summary>Chính sách đổi trả hàng của shop như thế nào?</summary>
+              <div class="faq-answer">
+                <p>
+                  Chúng tôi có chính sách đổi trả linh hoạt trong vòng 07 ngày
+                  cho các sản phẩm lỗi hoặc giao sai. Để biết thông tin chi tiết
+                  về điều kiện và quy trình, bạn vui lòng tham khảo trang
+                  <a
+                    href="policy.html"
+                    style="color: var(--primary-color); font-weight: bold"
+                    >Chính sách Đổi trả</a
+                  >
+                  của chúng tôi.
+                </p>
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer id="mainFooter"><!-- Footer HTML --></footer>
+
+    <script>
+      document.getElementById(
+        "mainFooter"
+      ).innerHTML = `<div class="footer-container container"> <div class="footer-col"> <h3>MONOSHOP</h3> <p>Thời trang tối giản, chất lượng bền vững.</p></div><div class="footer-col"> <h3>Cửa hàng</h3> <ul class="footer-links"> <li><a href="product.html">Sản phẩm</a></li> <li><a href="about.html">Giới thiệu</a></li> <li><a href="contact.html">Liên hệ</a></li> </ul> </div> <div class="footer-col"> <h3>Hỗ trợ</h3> <ul class="footer-links"> <li><a href="contact.html">Liên hệ</a></li> <li><a href="policy.html">Chính sách đổi trả</a></li> <li><a href="faq.html">Câu hỏi thường gặp</a></li> </ul> </div> </div> <div class="copyright"> <p>© 2023 MONOSHOP.</p> </div>`;
+    </script>
+  </body>
+</html>
