@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MINI TENNIS | Tối giản mà chất</title>
+    <style>
+        :root {
+            --bg: #111;
+            --text: #fff;
+            --accent: #0ff;
+            --paddle: #fff;
+            --ball: #f0f;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: var(--bg);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Helvetica Neue', sans-serif;
+            color: var(--text);
+        }
+        
+        #game-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            height: 500px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+        
+        #paddleA, #paddleB {
+            position: absolute;
+            width: 15px;
+            height: 100px;
+            background: var(--paddle);
+            border-radius: 5px;
+        }
+        
+        #paddleA {
+            left: 20px;
+        }
+        
+        #paddleB {
+            right: 20px;
+        }
+        
+        #ball {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--ball);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--ball), 0 0 20px var(--ball);
+        }
+        
+        #score {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 2rem;
+            letter-spacing: 0.5rem;
+        }
+        
+        #center-line {
+            position: absolute;
+            width: 1px;
+            height: 100%;
+            left: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border-right: 1px dashed rgba(255, 255, 255, 0.3);
+        }
+        
+        .instructions {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            opacity: 0.5;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="score">0 : 0</div>
+        <div id="center-line"></div>
+        <div id="paddleA"></div>
+        <div id="paddleB"></div>
+        <div id="ball"></div>
+        <div class="instructions">W/S để di chuyển | Người chơi 2: Mũi tên Lên/Xuống</div>
+    </div>
+
+    <script>
+        // Game elements
+        const gameContainer = document.getElementById('game-container');
+        const paddleA = document.getElementById('paddleA');
+        const paddleB = document.getElementById('paddleB');
+        const ball = document.getElementById('ball');
+        const scoreDisplay = document.getElementById('score');
+        
+        // Game variables
+        let scoreA = 0, scoreB = 0;
+        let ballX = 400, ballY = 250;
+        let ballSpeedX = 5, ballSpeedY = 3;
+        let paddleAY = 200, paddleBY = 200;
+        const paddleHeight = 100;
+        const paddleWidth = 15;
+        const ballSize = 20;
+        
+        // Initialize game
+        function init() {
+            updatePaddles();
+            updateBall();
+            gameLoop();
+        }
+        
+        // Game loop
+        function gameLoop() {
+            update();
+            render();
+            requestAnimationFrame(gameLoop);
+        }
+        
+        // Update game state
+        function update() {
+            // Move ball
+            ballX += ballSpeedX;
+            ballY += ballSpeedY;
+            
+            // Ball collision with top/bottom
+            if (ballY <= 0 || ballY >= gameContainer.offsetHeight - ballSize) {
+                ballSpeedY = -ballSpeedY;
+            }
+            
+            // Ball collision with paddles
+            if (
+                ballX <= paddleWidth + 20 && 
+                ballY + ballSize >= paddleAY && 
+                ballY <= paddleAY + paddleHeight
+            ) {
+                ballSpeedX = -ballSpeedX * 1.05; // Increase speed slightly
+                ballSpeedY += (Math.random() * 2 - 1); // Add some randomness
+            }
+            
+            if (
+                ballX >= gameContainer.offsetWidth - paddleWidth - 20 - ballSize && 
+                ballY + ballSize >= paddleBY && 
+                ballY <= paddleBY + paddleHeight
+            ) {
+                ballSpeedX = -ballSpeedX * 1.05;
+                ballSpeedY += (Math.random() * 2 - 1);
+            }
+            
+            // Score points
+            if (ballX < 0) {
+                scoreB++;
+                resetBall(1);
+            }
+            
+            if (ballX > gameContainer.offsetWidth) {
+                scoreA++;
+                resetBall(-1);
+            }
+        }
+        
+        // Render game
+        function render() {
+            updateBall();
+            updateScore();
+        }
+        
+        // Reset ball after scoring
+        function resetBall(direction) {
+            ballX = gameContainer.offsetWidth / 2;
+            ballY = gameContainer.offsetHeight / 2;
+            ballSpeedX = 5 * direction;
+            ballSpeedY = (Math.random() * 6 - 3);
+        }
+        
+        // Update paddle positions
+        function updatePaddles() {
+            paddleA.style.top = paddleAY + 'px';
+            paddleB.style.top = paddleBY + 'px';
+        }
+        
+        // Update ball position
+        function updateBall() {
+            ball.style.left = ballX + 'px';
+            ball.style.top = ballY + 'px';
+        }
+        
+        // Update score display
+        function updateScore() {
+            scoreDisplay.textContent = `${scoreA} : ${scoreB}`;
+        }
+        
+        // Keyboard controls
+        const keys = {};
+        document.addEventListener('keydown', (e) => {
+            keys[e.key] = true;
+        });
+        
+        document.addEventListener('keyup', (e) => {
+            keys[e.key] = false;
+        });
+        
+        // Control paddles
+        function handleControls() {
+            // Player A (W/S)
+            if (keys['w'] && paddleAY > 0) paddleAY -= 5;
+            if (keys['s'] && paddleAY < gameContainer.offsetHeight - paddleHeight) paddleAY += 5;
+            
+            // Player B (Arrow Up/Down)
+            if (keys['ArrowUp'] && paddleBY > 0) paddleBY -= 5;
+            if (keys['ArrowDown'] && paddleBY < gameContainer.offsetHeight - paddleHeight) paddleBY += 5;
+            
+            updatePaddles();
+        }
+        
+        // Run controls check every frame
+        setInterval(handleControls, 16);
+        
+        // Start game
+        init();
+        
+        // Random color change for ball
+        setInterval(() => {
+            const colors = ['#0ff', '#f0f', '#ff0', '#f00', '#0f0', '#00f'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            ball.style.background = randomColor;
+            ball.style.boxShadow = `0 0 10px ${randomColor}, 0 0 20px ${randomColor}`;
+        }, 3000);
+    </script>
+</body>
+</html>
