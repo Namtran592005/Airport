@@ -1,360 +1,528 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>MINI TENNIS | Tối giản mà chất</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>APC59</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="https://cdn-icons-png.flaticon.com/512/2200/2200326.png"
+    />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="https://cdn-icons-png.flaticon.com/512/2200/2200326.png"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto+Mono:wght@500&display=swap"
+      rel="stylesheet"
+    />
+
     <style>
-        :root {
-            --bg: #111;
-            --text: #fff;
-            --accent: #0ff;
-            --paddle: #fff;
-            --ball: #f0f;
-        }
+      :root {
+        --primary-color: #0056b3;
+        --secondary-color: #fff;
+        --glass-border-color: rgba(255, 255, 255, 0.3);
+        --text-on-glass-color: #f0f8ff;
+        --text-shadow-strong: 0 1px 4px rgba(0, 0, 0, 0.5);
+
+        --status-ontime-color: #28a745;
+        --status-boarding-color: #17a2b8;
+        --status-delayed-color: #dc3545;
+        --status-lastcall-color: #ffc107;
+        --status-gateclosed-color: #6c757d;
         
-        /* Chống cuộn trang trên mobile */
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            width: 100%;
-            background: var(--bg);
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Helvetica Neue', sans-serif;
-            color: var(--text);
-            touch-action: none; /* Quan trọng: Ngăn cử chỉ mặc định của trình duyệt */
+      }
+
+      Html {
+        scroll-behavior: smooth;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+      }
+
+      body {
+        font-family: "Poppins", "Segoe UI", sans-serif;
+        background-color: #000;
+        color: var(--text-on-glass-color);
+        margin: 0;
+        padding: 0;
+        padding-bottom: 80px; /* Thêm lại padding để footer không che nội dung */
+      }
+
+      .background-video {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+        filter: brightness(0.8);
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 1001;
+        padding: 10px 0; /* Giảm padding */
+        background: rgba(0, 20, 50, 0.5);
+        backdrop-filter: blur(3px);
+        -webkit-backdrop-filter: blur(3px);
+        border-bottom: 1px solid var(--glass-border-color);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      header .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      header h1 {
+        margin: 0;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: white;
+        text-shadow: var(--text-shadow-strong);
+        display: flex;
+        align-items: center;
+      }
+      .header-icon {
+        color: var(--secondary-color);
+        font-size: 2rem;
+        margin-right: 12px;
+      }
+
+      /* === NÂNG CẤP LỚN: ĐỒNG HỒ ĐẸP HƠN === */
+      .time-display-wrapper {
+        text-align: right;
+      }
+
+      #time-display {
+        display: block;
+        font-family: "Roboto Mono", monospace;
+        font-size: 1.5rem; /* Giờ to, rõ ràng */
+        color: #fff;
+        letter-spacing: 1.5px;
+        font-weight: 500;
+        animation: glow 2s ease-in-out infinite alternate;
+      }
+
+      #date-display {
+        display: block;
+        font-size: 0.8rem;
+        color: #a7c0e0; /* Màu xám-xanh nhạt */
+        opacity: 0.8;
+        font-weight: 400;
+      }
+
+      @keyframes glow {
+        from {
+          text-shadow: 0 0 5px rgba(173, 216, 230, 0.5),
+            0 0 10px rgba(173, 216, 230, 0.3);
         }
-        
-        #game-container {
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-            height: 500px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            overflow: hidden;
-            cursor: none; /* Ẩn con trỏ chuột trong khu vực game */
+        to {
+          text-shadow: 0 0 10px rgba(173, 216, 230, 0.8),
+            0 0 20px rgba(173, 216, 230, 0.5);
         }
-        
-        #paddleA, #paddleB {
-            position: absolute;
-            width: 15px;
-            height: 100px;
-            background: var(--paddle);
-            border-radius: 5px;
-            transition: background 0.3s, box-shadow 0.3s;
+      }
+      /* === KẾT THÚC NÂNG CẤP === */
+
+      .departures-board {
+        margin: 40px 0;
+        overflow: hidden;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid var(--glass-border-color);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      }
+
+      .board-header {
+        background: rgba(0, 86, 179, 0.3);
+        padding: 20px;
+        text-align: center;
+        border-bottom: 1px solid var(--glass-border-color);
+      }
+
+      .board-title {
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin: 0;
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      .destinations {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 25px;
+        padding: 25px;
+      }
+
+      .destination {
+        color: var(--text-on-glass-color);
+        border: 1px solid var(--glass-border-color);
+        padding: 25px;
+        border-radius: 12px;
+        transition: background 0.3s ease, transform 0.3s ease,
+          border-color 0.3s ease;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        background: linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.1),
+          rgba(255, 255, 255, 0.05)
+        );
+        text-shadow: var(--text-shadow-strong);
+      }
+
+      .destination:hover {
+        transform: translateY(-8px);
+        background: linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.25),
+          rgba(255, 255, 255, 0.15)
+        );
+        border-color: rgba(255, 255, 255, 0.5);
+      }
+
+      .destination-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        align-items: center;
+      }
+      .destination-name {
+        font-size: 1.4rem;
+        margin: 0;
+        font-weight: 700;
+        color: var(--secondary-color);
+      }
+      .destination-code {
+        color: white;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+      .destination-description {
+        margin: 10px 0;
+        flex-grow: 1;
+        font-weight: 400;
+        color: #fff;
+      }
+      .destination-status {
+        margin: 15px 0;
+        padding: 8px;
+        border-radius: 6px;
+        text-align: center;
+        font-weight: 700;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: background-color 0.5s, color 0.5s;
+        text-shadow: none;
+      }
+      .status-text {
+        display: inline-block;
+        width: 100%;
+        transition: opacity 0.3s ease-in-out;
+      }
+      .status-text.updating {
+        opacity: 0;
+      }
+      .status-ontime {
+        background-color: var(--status-ontime-color);
+        color: white;
+      }
+      .status-boarding {
+        background-color: var(--status-boarding-color);
+        color: white;
+      }
+      .status-delayed {
+        background-color: var(--status-delayed-color);
+        color: white;
+      }
+      .status-gateclosed {
+        background-color: var(--status-gateclosed-color);
+        color: white;
+        font-style: italic;
+      }
+      .status-lastcall {
+        background-color: var(--status-lastcall-color);
+        color: #333;
+        animation: flash-warning 1.5s infinite;
+      }
+      @keyframes flash-warning {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 1;
         }
-        
-        #paddleA {
-            left: 20px;
+        50% {
+          transform: scale(1.02);
+          opacity: 0.8;
         }
-        
-        #paddleB {
-            right: 20px;
+      }
+      .btn-board {
+        background-color: rgba(255, 255, 255, 0.374);
+        color: #333;
+        border: none;
+        padding: 12px 15px;
+        border-radius: 6px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+        width: 100%;
+        margin-top: auto;
+        text-transform: uppercase;
+        text-shadow: none;
+      }
+      .btn-board:hover {
+        background-color: rgba(0, 0, 0, 0.5);
+        transform: scale(1.03);
+        color: white;
+      }
+
+      footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        padding: 10px 0;
+        color: #eaf5ff;
+        text-align: center;
+        background: rgba(0, 20, 50, 0.5);
+        backdrop-filter: blur(3px);
+        -webkit-backdrop-filter: blur(3px);
+        border-top: 1px solid var(--glass-border-color);
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      footer p {
+        margin: 0;
+        font-size: 0.85rem;
+        font-weight: 400;
+        text-shadow: var(--text-shadow-strong);
+      }
+
+      /* === NÂNG CẤP RESPONSIVE TOÀN DIỆN === */
+      @media (max-width: 768px) {
+        body {
+          padding-bottom: 20px; /* Giảm padding vì footer không còn fixed */
         }
-        
-        .ai-paddle {
-            background: var(--accent);
-            box-shadow: 0 0 10px var(--accent);
+
+        header .container {
+          flex-direction: column;
+          gap: 15px;
         }
-        
-        #ball {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: var(--ball);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--ball), 0 0 20px var(--ball);
+
+        header h1 {
+          font-size: 1.6rem;
         }
-        
-        #score {
-            position: absolute;
-            top: 20px;
-            width: 100%;
-            text-align: center;
-            font-size: 2rem;
-            letter-spacing: 0.5rem;
-            user-select: none;
+
+        .time-display-wrapper {
+          text-align: center;
         }
-        
-        #center-line {
-            position: absolute;
-            width: 1px;
-            height: 100%;
-            left: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            border-right: 1px dashed rgba(255, 255, 255, 0.3);
+
+        #time-display {
+          font-size: 1.3rem;
         }
-        
-        .instructions {
-            position: absolute;
-            bottom: 20px;
-            width: 100%;
-            text-align: center;
-            opacity: 0.5;
-            font-size: 0.8rem;
-            user-select: none;
+
+        .destinations {
+          grid-template-columns: 1fr;
+          gap: 20px;
+          padding: 20px;
         }
+
+        .destination {
+          padding: 20px;
+        }
+
+        .destination-name {
+          font-size: 1.2rem;
+        }
+
+        /* Footer không còn cố định trên mobile */
+        footer {
+          position: static;
+          margin-top: 40px;
+          border-radius: 12px; /* Thêm bo góc khi nó nằm trong nội dung */
+          margin-left: 20px;
+          margin-right: 20px;
+          width: auto;
+        }
+      }
     </style>
-</head>
-<body>
-    <div id="game-container">
-        <div id="score">0 : 0</div>
-        <div id="center-line"></div>
-        <div id="paddleA"></div>
-        <div id="paddleB"></div>
-        <div id="ball"></div>
-        <div class="instructions">W/S | ↑/↓ | Chạm để điều khiển</div>
+  </head>
+  <body>
+    <video autoplay muted loop playsinline class="background-video">
+      <source src="./src/backgroud.mp4" type="video/mp4" />
+      Trình duyệt của bạn không hỗ trợ video tag.
+    </video>
+
+    <header>
+      <div class="container">
+        <h1><span class="header-icon">✈</span> Airport Center</h1>
+        <!-- Cấu trúc HTML mới cho đồng hồ -->
+        <div class="time-display-wrapper">
+          <span id="time-display">--:--:--</span>
+          <span id="date-display">--/--/----</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="departures-board">
+        <div class="board-header">
+          <h2 class="board-title">Bảng Điểm Đến</h2>
+        </div>
+        <div class="destinations">
+          <!-- Các thẻ destination giữ nguyên -->
+          
+
+          <div class="destination">
+            <div class="destination-header">
+              <h3 class="destination-name">Portfolio</h3>
+              <span class="destination-code">GATE-1</span>
+            </div>
+            <p class="destination-description">
+              Website Portfolio cá nhân dựa trên theo thiết kế các sản phẩm của
+              Apple.
+            </p>
+            <div class="destination-status">
+              <span class="status-text">Đang cập nhật...</span>
+            </div>
+            <button
+              class="btn-board"
+              onclick="window.location.href='./portfolio/index.html'"
+            >
+              GO TO
+            </button>
+          </div>
+
+          <div class="destination">
+            <div class="destination-header">
+              <h3 class="destination-name">Digital Clock</h3>
+              <span class="destination-code">GATE-2</span>
+            </div>
+            <p class="destination-description">
+              Trang đồng hồ hiển thị thời gian hiện tại, đồng bộ với máy chủ.
+            </p>
+            <div class="destination-status">
+              <span class="status-text">Đang cập nhật...</span>
+            </div>
+            <button
+              class="btn-board"
+              onclick="window.location.href='./clock/index.html'"
+            >
+              GO TO
+            </button>
+          </div>
+
+          <div class="destination">
+            <div class="destination-header">
+              <h3 class="destination-name">Tennis</h3>
+              <span class="destination-code">GATE-3</span>
+            </div>
+            <p class="destination-description">
+              Games siêu cổ với 1 file html với dung lượng chỉ 17kb.
+            </p>
+            <div class="destination-status">
+              <span class="status-text">Đang cập nhật...</span>
+            </div>
+            <button
+              class="btn-board"
+              onclick="window.location.href='./game/tennis.html'"
+            >
+              GO TO
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
+    <footer>
+      <div class="container">
+        <p>© 2025 Airport Center | Phiên bản 2.0 - Aviation</p>
+      </div>
+    </footer>
+
     <script>
-        // --- PHẦN 1: KHỞI TẠO BIẾN VÀ CẤU HÌNH ---
-        
-        // Game elements
-        const gameContainer = document.getElementById('game-container');
-        const paddleA = document.getElementById('paddleA');
-        const paddleB = document.getElementById('paddleB');
-        const ball = document.getElementById('ball');
-        const scoreDisplay = document.getElementById('score');
-
-        // Phát hiện thiết bị mobile để điều chỉnh tốc độ
-        const isMobile = window.innerWidth <= 768;
-        const speedModifier = isMobile ? 0.7 : 1.0;
-
-        // Game constants
-        const PADDLE_HEIGHT = 100;
-        const PADDLE_WIDTH = 15;
-        const BALL_SIZE = 20;
-        const PLAYER_SPEED = 5 * speedModifier;
-        const INITIAL_BALL_SPEED_X = 5 * speedModifier;
-        const MAX_BALL_SPEED_X = 15 * speedModifier;
-        const MAX_BOUNCE_ANGLE = 5 * speedModifier; // Tốc độ Y tối đa khi nảy
-
-        // Game variables
-        let scoreA = 0, scoreB = 0;
-        let ballX, ballY;
-        let ballSpeedX, ballSpeedY;
-        let paddleAY, paddleBY;
-        
-        // --- PHẦN 2: NÂNG CẤP AI VÀ ĐIỀU KHIỂN ---
-        let isPlayerA_AI = false;
-        let isPlayerB_AI = false;
-        let inactivityTimerA, inactivityTimerB;
-        const INACTIVITY_TIMEOUT = 20000; // 20 giây
-
-        // Cấu hình "tính cách" cho AI
-        const aiProfiles = {
-            A: { // AI bên trái: "Phòng thủ ổn định"
-                name: "Steady Defender",
-                speed: 3.5 * speedModifier,
-                errorMargin: 30 // Có xu hướng giữ bóng ở giữa vợt, ít mắc lỗi
-            },
-            B: { // AI bên phải: "Tấn công quyết đoán"
-                name: "Aggressive Attacker",
-                speed: 4.2 * speedModifier,
-                errorMargin: 50 // Di chuyển nhanh hơn, chấp nhận rủi ro hơn
-            }
-        };
-
-        function activateAI(player) {
-            if (player === 'A' && !isPlayerA_AI) {
-                isPlayerA_AI = true;
-                paddleA.classList.add('ai-paddle');
-                console.log(`${aiProfiles.A.name} took over Player A`);
-            } else if (player === 'B' && !isPlayerB_AI) {
-                isPlayerB_AI = true;
-                paddleB.classList.add('ai-paddle');
-                console.log(`${aiProfiles.B.name} took over Player B`);
-            }
-        }
-
-        function resetInactivityTimer(player) {
-            if (player === 'A') {
-                isPlayerA_AI = false;
-                paddleA.classList.remove('ai-paddle');
-                clearTimeout(inactivityTimerA);
-                inactivityTimerA = setTimeout(() => activateAI('A'), INACTIVITY_TIMEOUT);
-            } else if (player === 'B') {
-                isPlayerB_AI = false;
-                paddleB.classList.remove('ai-paddle');
-                clearTimeout(inactivityTimerB);
-                inactivityTimerB = setTimeout(() => activateAI('B'), INACTIVITY_TIMEOUT);
-            }
-        }
-
-        function moveAI(paddleY, ballY, profile) {
-            const paddleCenter = paddleY + PADDLE_HEIGHT / 2;
-            // AI sẽ nhắm vào một điểm ngẫu nhiên trên vợt để làm cho nó trông tự nhiên hơn
-            const targetY = ballY + BALL_SIZE / 2 + (Math.random() - 0.5) * profile.errorMargin;
-            let newPaddleY = paddleY;
-
-            if (paddleCenter < targetY) {
-                newPaddleY += profile.speed;
-            } else if (paddleCenter > targetY) {
-                newPaddleY -= profile.speed;
-            }
-
-            // Giới hạn di chuyển
-            return Math.max(0, Math.min(gameContainer.offsetHeight - PADDLE_HEIGHT, newPaddleY));
-        }
-
-        const keys = {};
-        document.addEventListener('keydown', (e) => {
-            keys[e.key] = true;
-            if (['w', 's', 'W', 'S'].includes(e.key)) resetInactivityTimer('A');
-            if (['ArrowUp', 'ArrowDown'].includes(e.key)) resetInactivityTimer('B');
+      // Cập nhật hàm updateTime cho cấu trúc mới
+      function updateTime() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString("en-GB"); // Dùng en-GB để có định dạng HH:MM:SS
+        const dateString = now.toLocaleDateString("vi-VN", {
+          weekday: "long",
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
         });
-        document.addEventListener('keyup', (e) => { keys[e.key] = false; });
-        
-        // Điều khiển cảm ứng cho mobile
-        function handleTouch(e) {
-            e.preventDefault(); // Ngăn cuộn trang
-            for (let i = 0; i < e.touches.length; i++) {
-                const touch = e.touches[i];
-                const touchY = touch.clientY - gameContainer.getBoundingClientRect().top;
-                
-                if (touch.clientX < window.innerWidth / 2) { // Nửa màn hình bên trái
-                    paddleAY = touchY - PADDLE_HEIGHT / 2;
-                    resetInactivityTimer('A');
-                } else { // Nửa màn hình bên phải
-                    paddleBY = touchY - PADDLE_HEIGHT / 2;
-                    resetInactivityTimer('B');
-                }
-            }
-        }
-        
-        gameContainer.addEventListener('touchstart', handleTouch, { passive: false });
-        gameContainer.addEventListener('touchmove', handleTouch, { passive: false });
-        
-        function handleControls() {
-            // Player A
-            if (isPlayerA_AI) {
-                paddleAY = moveAI(paddleAY, ballY, aiProfiles.A);
-            } else {
-                if ((keys['w'] || keys['W']) && paddleAY > 0) paddleAY -= PLAYER_SPEED;
-                if ((keys['s'] || keys['S']) && paddleAY < gameContainer.offsetHeight - PADDLE_HEIGHT) paddleAY += PLAYER_SPEED;
-            }
-            // Player B
-            if (isPlayerB_AI) {
-                paddleBY = moveAI(paddleBY, ballY, aiProfiles.B);
-            } else {
-                if (keys['ArrowUp'] && paddleBY > 0) paddleBY -= PLAYER_SPEED;
-                if (keys['ArrowDown'] && paddleBY < gameContainer.offsetHeight - PADDLE_HEIGHT) paddleBY += PLAYER_SPEED;
-            }
-            
-            // Giới hạn di chuyển cho người chơi (phòng trường hợp touch kéo ra ngoài)
-            paddleAY = Math.max(0, Math.min(gameContainer.offsetHeight - PADDLE_HEIGHT, paddleAY));
-            paddleBY = Math.max(0, Math.min(gameContainer.offsetHeight - PADDLE_HEIGHT, paddleBY));
-        }
 
-        // --- PHẦN 3: LOGIC CHÍNH CỦA TRÒ CHƠI ---
+        document.getElementById("time-display").textContent = timeString;
+        document.getElementById("date-display").textContent = dateString;
+      }
 
-        function init() {
-            scoreA = 0; scoreB = 0;
-            resetBall(Math.random() > 0.5 ? 1 : -1);
-            resetInactivityTimer('A');
-            resetInactivityTimer('B');
-            gameLoop();
-        }
+      setInterval(updateTime, 1000);
+      updateTime();
 
-        function resetBall(direction) {
-            ballX = gameContainer.offsetWidth / 2 - BALL_SIZE / 2;
-            ballY = gameContainer.offsetHeight / 2 - BALL_SIZE / 2;
-            paddleAY = gameContainer.offsetHeight / 2 - PADDLE_HEIGHT / 2;
-            paddleBY = gameContainer.offsetHeight / 2 - PADDLE_HEIGHT / 2;
-            ballSpeedX = INITIAL_BALL_SPEED_X * direction;
-            ballSpeedY = (Math.random() - 0.5) * 4 * speedModifier;
-        }
+      const statuses = [
+        { text: "On Time", class: "status-ontime" },
+        { text: "Boarding", class: "status-boarding" },
+        { text: "Last Call", class: "status-lastcall" },
+        { text: "Delayed", class: "status-delayed" },
+        { text: "Gate Closed", class: "status-gateclosed" },
+      ];
 
-        function update() {
-            handleControls();
-            
-            ballX += ballSpeedX;
-            ballY += ballSpeedY;
-            
-            // Va chạm tường trên/dưới
-            if (ballY <= 0) {
-                ballY = 0;
-                ballSpeedY *= -1;
-            }
-            if (ballY >= gameContainer.offsetHeight - BALL_SIZE) {
-                ballY = gameContainer.offsetHeight - BALL_SIZE;
-                ballSpeedY *= -1;
-            }
+      function getRandomStatus() {
+        return statuses[Math.floor(Math.random() * statuses.length)];
+      }
 
-            // Va chạm vợt A (trái)
-            if (ballSpeedX < 0 && ballX < 20 + PADDLE_WIDTH && ballX > 20) {
-                if (ballY + BALL_SIZE > paddleAY && ballY < paddleAY + PADDLE_HEIGHT) {
-                    handlePaddleCollision(paddleA, paddleAY);
-                }
-            }
+      function updateGateStatus(gate) {
+        const statusContainer = gate.querySelector(".destination-status");
+        const statusTextElement = gate.querySelector(".status-text");
+        const newStatus = getRandomStatus();
+        statusTextElement.classList.add("updating");
+        setTimeout(() => {
+          statusContainer.className = "destination-status " + newStatus.class;
+          statusTextElement.textContent = newStatus.text;
+          statusTextElement.classList.remove("updating");
+        }, 300);
+      }
 
-            // Va chạm vợt B (phải)
-            if (ballSpeedX > 0 && ballX + BALL_SIZE > gameContainer.offsetWidth - 20 - PADDLE_WIDTH && ballX < gameContainer.offsetWidth - 20) {
-                 if (ballY + BALL_SIZE > paddleBY && ballY < paddleBY + PADDLE_HEIGHT) {
-                    handlePaddleCollision(paddleB, paddleBY);
-                }
-            }
-            
-            // Ghi điểm
-            if (ballX < 0) {
-                scoreB++;
-                resetBall(1);
-            }
-            if (ballX > gameContainer.offsetWidth) {
-                scoreA++;
-                resetBall(-1);
-            }
-        }
-
-        // --- PHẦN 4: VẬT LÝ BÓNG NÂNG CAO ---
-        function handlePaddleCollision(paddle, paddleY) {
-            // 1. Tính toán điểm va chạm trên vợt (-1 là mép trên, 0 là giữa, 1 là mép dưới)
-            const paddleCenter = paddleY + PADDLE_HEIGHT / 2;
-            const ballCenter = ballY + BALL_SIZE / 2;
-            const impactPoint = (ballCenter - paddleCenter) / (PADDLE_HEIGHT / 2);
-
-            // 2. Thay đổi góc nảy của bóng dựa trên điểm va chạm
-            ballSpeedY = impactPoint * MAX_BOUNCE_ANGLE;
-
-            // 3. Tăng tốc độ theo chiều X, tăng nhiều hơn nếu đánh vào mép
-            let speedMultiplier = 1.1 + Math.abs(impactPoint) * 0.2;
-            ballSpeedX = -ballSpeedX * speedMultiplier;
-
-            // 4. Giới hạn tốc độ tối đa
-            ballSpeedX = Math.sign(ballSpeedX) * Math.min(Math.abs(ballSpeedX), MAX_BALL_SPEED_X);
-
-            // Đẩy bóng ra khỏi vợt để tránh bị kẹt
-            if (paddle === paddleA) ballX = 20 + PADDLE_WIDTH;
-            if (paddle === paddleB) ballX = gameContainer.offsetWidth - 20 - PADDLE_WIDTH - BALL_SIZE;
-        }
-
-        function render() {
-            paddleA.style.top = `${paddleAY}px`;
-            paddleB.style.top = `${paddleBY}px`;
-            ball.style.left = `${ballX}px`;
-            ball.style.top = `${ballY}px`;
-            scoreDisplay.textContent = `${scoreA} : ${scoreB}`;
-        }
-        
-        function gameLoop() {
-            update();
-            render();
-            requestAnimationFrame(gameLoop);
-        }
-        
-        // --- PHẦN 5: HIỆU ỨNG PHỤ VÀ KHỞI ĐỘNG ---
+      document.addEventListener("DOMContentLoaded", function () {
+        const allGates = document.querySelectorAll(".destination");
+        allGates.forEach((gate) => {
+          setTimeout(() => {
+            updateGateStatus(gate);
+          }, Math.random() * 1000);
+        });
         setInterval(() => {
-            const colors = ['#0ff', '#f0f', '#ff0', '#f00', '#0f0'];
-            const randomColor = colors[Math.floor(Math.random() * colors.length)];
-            ball.style.background = randomColor;
-            ball.style.boxShadow = `0 0 10px ${randomColor}, 0 0 20px ${randomColor}`;
-        }, 3000);
-        
-        init(); // Bắt đầu trò chơi
+          const randomGate =
+            allGates[Math.floor(Math.random() * allGates.length)];
+          updateGateStatus(randomGate);
+        }, 4000);
+      });
     </script>
-</body>
+  </body>
 </html>
