@@ -614,7 +614,6 @@
         display: none;
       }
       .cc-widget {
-        background: hsla(0, 0%, 100%, 0.08);
         border-radius: var(--border-radius-m);
         padding: 16px;
         box-shadow: inset 1px 1px 0 hsla(0, 0%, 100%, 0.1);
@@ -704,33 +703,6 @@
       }
       input[type="range"]::-webkit-slider-thumb:hover {
         transform: scale(1.1);
-      }
-      .cc-nav-links ul {
-        list-style: none;
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 10px;
-      }
-      .cc-nav-links a {
-        background: hsla(0, 0%, 100%, 0.08);
-        border-radius: var(--border-radius-s);
-        padding: 12px 16px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        color: var(--text-primary-dark);
-        font-size: 1rem;
-        font-weight: 600;
-        transition: background 0.2s, transform 0.2s;
-      }
-      .cc-nav-links a:hover {
-        background: hsla(0, 0%, 100%, 0.15);
-        transform: translateX(5px);
-      }
-      .cc-nav-links a i {
-        color: var(--accent-primary-dark);
-        width: 20px;
-        text-align: center;
       }
 
       html,
@@ -1501,42 +1473,6 @@
               </button>
             </div>
           </div>
-          <div class="cc-widget cc-nav-links">
-            <div class="widget-header"><span>Navigation</span></div>
-            <ul>
-              <li>
-                <a href="#about" class="nav-link"
-                  ><i class="fas fa-user"></i>About</a
-                >
-              </li>
-              <li>
-                <a href="#skills" class="nav-link"
-                  ><i class="fas fa-cogs"></i>Skills</a
-                >
-              </li>
-              <li>
-                <a href="#experience" class="nav-link"
-                  ><i class="fas fa-briefcase"></i>Experience</a
-                >
-              </li>
-              <li>
-                <a href="#projects" class="nav-link"
-                  ><i class="fas fa-project-diagram"></i>Projects</a
-                >
-              </li>
-              <li>
-                <a href="#education" class="nav-link"
-                  ><i class="fas fa-graduation-cap"></i>Education</a
-                >
-              </li>
-              <li>
-                <a href="#contact" class="nav-link"
-                  ><i class="fas fa-paper-plane"></i>Contact</a
-                >
-              </li>
-            </ul>
-          </div>
-        </div>
       </div>
     </nav>
 
